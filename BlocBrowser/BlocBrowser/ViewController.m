@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIButton *forwardButton;
 @property (nonatomic, strong) UIButton *stopButton;
 @property (nonatomic, strong) UIButton *reloadButton;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 
 
@@ -37,7 +38,7 @@
     self.textField.returnKeyType = UIReturnKeyDone;
     self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.textField.placeholder = NSLocalizedString(@"WebsiteURL", @"Placeholder text for web browser URL field");
+    self.textField.placeholder = NSLocalizedString(@"WebsiteURL", @"You can also enter a search phrase here");
     self.textField.backgroundColor = [UIColor colorWithWhite:220/225.0f alpha:1];
     self.textField.delegate = self;
     
@@ -87,7 +88,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.edgesForExtendedLayout = UIRectEdgeNone;
-
+    
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
+    
 }
 
 -(void) viewWillLayoutSubviews {
@@ -122,10 +126,16 @@
     
     NSString *URLString = textField.text;
     
+    //this is my attempt to get Google to search when a phrase is entered in the search bar - not working...
+    
+    NSString *searchString=textField.text;
+    NSString *urlAddress = [NSString stringWithFormat:@"http://www.google.com/search?q=%@",searchString];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlAddress]];
+    
     NSURL *URL = [NSURL URLWithString:URLString];
     
     if (!URL.scheme) {
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://", URLString]];
+        URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", URLString]];
     }
     
     if (URL) {
@@ -144,6 +154,14 @@
 
 #pragma  mark - WKNavigattionDelegate
 
+-(void) webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
+    [self updateButtonsandTitle];
+}
+- (void) webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    [self updateButtonsandTitle];
+
+}
+
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
     if (error.code != NSURLErrorCancelled) {
@@ -158,6 +176,32 @@
         
         [self presentViewController:alert animated:YES completion:nil];
     }
+    
+    [self updateButtonsandTitle];
+    
+}
+
+# pragma mark - Miscellaneous
+
+-(void) updateButtonsandTitle {
+    
+    NSString *webpageTitle = [self.webView.title copy];
+    if ([webpageTitle length]) {
+        self.title = webpageTitle;
+    
+    } else {
+        self.title = self.webView.URL.absoluteString;
+    }
+    
+    if (self.webView.isLoading) {
+        [self.activityIndicator startAnimating];
+    } else {
+        [self.activityIndicator stopAnimating];
+    }
+    self.backButton.enabled = [self.webView canGoBack];
+    self.forwardButton.enabled = [self.webView canGoForward];
+    self.stopButton.enabled = self.webView.isLoading;
+    self.reloadButton.enabled = !self.webView.isLoading;
 }
 
 
