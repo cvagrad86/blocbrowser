@@ -123,8 +123,8 @@
     //CGFloat buttonWidth = CGRectGetWidth(self.view.bounds)/4;
     
     
-    self.textField.frame = CGRectMake(0, 0, width, itemHeight);
-    self.webView.frame = CGRectMake(0, CGRectGetMaxY(self.textField.frame), width, browserHeight);
+    self.textField.frame = CGRectMake(0, 0, 600, itemHeight);
+    self.webView.frame = CGRectMake(0, CGRectGetMaxY(self.textField.frame), 600, browserHeight);
     
     //positions buttons
     
