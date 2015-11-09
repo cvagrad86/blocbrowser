@@ -10,7 +10,9 @@
 
 @interface ViewController : UIViewController
 
-//creating a change
+//erases history
+-(void) resetWebView;
+
 
 @end
 
