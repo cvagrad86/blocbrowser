@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		934145C51BF0A0B7007B4844 /* AwesomeFloatingToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 934145C41BF0A0B7007B4844 /* AwesomeFloatingToolbar.m */; settings = {ASSET_TAGS = (); }; };
 		93C0660B1BEB9546009C85CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C0660A1BEB9546009C85CA /* main.m */; };
 		93C0660E1BEB9547009C85CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C0660D1BEB9547009C85CA /* AppDelegate.m */; };
 		93C066111BEB9547009C85CA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C066101BEB9547009C85CA /* ViewController.m */; };
@@ -15,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		934145C31BF0A0B7007B4844 /* AwesomeFloatingToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeFloatingToolbar.h; sourceTree = "<group>"; };
+		934145C41BF0A0B7007B4844 /* AwesomeFloatingToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwesomeFloatingToolbar.m; sourceTree = "<group>"; };
 		93C066061BEB9546009C85CA /* BlocBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlocBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93C0660A1BEB9546009C85CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		93C0660C1BEB9547009C85CA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -64,6 +67,8 @@
 				93C066171BEB9547009C85CA /* LaunchScreen.storyboard */,
 				93C0661A1BEB9547009C85CA /* Info.plist */,
 				93C066091BEB9546009C85CA /* Supporting Files */,
+				934145C31BF0A0B7007B4844 /* AwesomeFloatingToolbar.h */,
+				934145C41BF0A0B7007B4844 /* AwesomeFloatingToolbar.m */,
 			);
 			path = BlocBrowser;
 			sourceTree = "<group>";
@@ -148,6 +153,7 @@
 				93C066111BEB9547009C85CA /* ViewController.m in Sources */,
 				93C0660E1BEB9547009C85CA /* AppDelegate.m in Sources */,
 				93C0660B1BEB9546009C85CA /* main.m in Sources */,
+				934145C51BF0A0B7007B4844 /* AwesomeFloatingToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +294,7 @@
 				93C0661F1BEB9547009C85CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
