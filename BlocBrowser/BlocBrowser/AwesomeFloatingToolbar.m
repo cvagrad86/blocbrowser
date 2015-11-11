@@ -18,7 +18,7 @@
 @property (nonatomic, weak) UILabel *currentLabel;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
-@property (nonatomic, strong) UIPinchGestureRecognizer *pinch;
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
 
 
 @end
@@ -71,6 +71,8 @@
         [self addGestureRecognizer:self.tapGesture];
         self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panFired:)];
         [self addGestureRecognizer:self.panGesture];
+        self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
+        [self addGestureRecognizer:self.pinchGesture];
         
     }
     
@@ -137,7 +139,7 @@
     }
 }
 
-#pragma  mark - tapFired
+#pragma  mark - Gesture Events
 
 -(void) tapFired:(UITapGestureRecognizer *)recognizer{
     if (recognizer.state == UIGestureRecognizerStateRecognized) {
@@ -151,22 +153,25 @@
         }
     }
 }
-    - (void) panFired:(UIPanGestureRecognizer *)recognizer {
-        if (recognizer.state == UIGestureRecognizerStateChanged) {
-            CGPoint translation = [recognizer translationInView:self];
-            
-            NSLog(@"New translation: %@", NSStringFromCGPoint(translation));
-            //floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset
-            if ([self.delegate respondsToSelector:@selector(panToolbar:)]) {
-                [self.delegate panToolbar:recognizer];
-            }
-            
-            [recognizer setTranslation:CGPointZero inView:self];
+
+- (void) panFired:(UIPanGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        CGPoint translation = [recognizer translationInView:self];
+        
+        NSLog(@"New translation: %@", NSStringFromCGPoint(translation));
+        //floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset
+        if ([self.delegate respondsToSelector:@selector(panToolbar:)]) {
+            [self.delegate panToolbar:recognizer];
         }
+        
+        [recognizer setTranslation:CGPointZero inView:self];
     }
+}
 
-
-
-
+-(void)pinchFired:(UIPinchGestureRecognizer *)recognizer {
+        if ([self.delegate respondsToSelector:@selector(pinchToolbar:)]) {
+            [self.delegate pinchToolbar:recognizer];
+        }
+}
 
 @end

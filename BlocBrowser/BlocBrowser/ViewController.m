@@ -110,11 +110,8 @@
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
     
-    //a bit of a mess here
-    UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureDetected:)];
-    [pinchGestureRecognizer setDelegate:self];
-    [imageView addGestureRecognizer:pinchGestureRecognizer];
-    
+    //moved here as it conflicted with pinching in layoutSubViews - which is called when a subview is resized
+    self.awesomeToolbar.frame = CGRectMake(20, 100, 280, 60);
 }
 
 -(void) viewWillLayoutSubviews {
@@ -139,8 +136,7 @@
     //    thisButton.frame = CGRectMake(currentButtonX, CGRectGetMaxY(self.webView.frame), buttonWidth, itemHeight);
     //    currentButtonX += buttonWidth;
     
-    self.awesomeToolbar.frame = CGRectMake(20, 100, 280, 60);
-    }
+}
 
 
 
@@ -279,16 +275,18 @@
     
     if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
       recognizer.view.frame = potentialNewFrame;
-}
+    }
 }
 
--(void) pinchToolbar:(UIPinchGestureRecognizer *)pinch; {
+-(void) pinchToolbar:(UIPinchGestureRecognizer *)pinch {
+    CGAffineTransform transform = CGAffineTransformMakeScale(pinch.scale, pinch.scale);
+
+    UIView *testGig = [[UIView alloc] initWithFrame:self.awesomeToolbar.frame];
+
+    testGig.transform = transform;
     
-    //tried some codeom from the web...no work...
-    //below is the beginning of my code
-    
-    if (pinch.state == UIGestureRecognizerStateBegan) {
-        CGPoint translation =
+    if (CGRectContainsRect(self.view.bounds, testGig.frame)){
+        pinch.view.transform = transform;
     }
 }
 @end
