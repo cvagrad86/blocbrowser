@@ -110,6 +110,11 @@
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
     
+    //a bit of a mess here
+    UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureDetected:)];
+    [pinchGestureRecognizer setDelegate:self];
+    [imageView addGestureRecognizer:pinchGestureRecognizer];
+    
 }
 
 -(void) viewWillLayoutSubviews {
@@ -265,4 +270,25 @@
     }
 }
 
+- (void)  panToolbar:(UIPanGestureRecognizer *)recognizer {
+    CGPoint startingPoint = recognizer.view.frame.origin;
+    CGPoint translation = [recognizer translationInView:recognizer.view];
+    CGPoint newPoint = CGPointMake(startingPoint.x + translation.x, startingPoint.y + translation.y);
+    
+    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(recognizer.view.frame), CGRectGetHeight(recognizer.view.frame));
+    
+    if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
+      recognizer.view.frame = potentialNewFrame;
+}
+}
+
+-(void) pinchToolbar:(UIPinchGestureRecognizer *)pinch; {
+    
+    //tried some codeom from the web...no work...
+    //below is the beginning of my code
+    
+    if (pinch.state == UIGestureRecognizerStateBegan) {
+        CGPoint translation =
+    }
+}
 @end

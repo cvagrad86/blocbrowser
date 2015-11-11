@@ -18,6 +18,7 @@
 @property (nonatomic, weak) UILabel *currentLabel;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinch;
 
 
 @end
@@ -66,9 +67,9 @@
         }
         //initialized the tapgesture
         
-        self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired)];
+        self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
         [self addGestureRecognizer:self.tapGesture];
-        self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panFired)];
+        self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panFired:)];
         [self addGestureRecognizer:self.panGesture];
         
     }
@@ -138,7 +139,7 @@
 
 #pragma  mark - tapFired
 
--(void) tapFired:(UITapGestureRecognizer *) recognizer {
+-(void) tapFired:(UITapGestureRecognizer *)recognizer{
     if (recognizer.state == UIGestureRecognizerStateRecognized) {
         CGPoint location = [recognizer locationInView:self];
         UIView *tappedView = [self hitTest:location withEvent:nil];
@@ -155,25 +156,17 @@
             CGPoint translation = [recognizer translationInView:self];
             
             NSLog(@"New translation: %@", NSStringFromCGPoint(translation));
-            
-            if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryToPanWithOffset:)]) {
-                [self.delegate floatingToolbar:self didTryToPanWithOffSet:translation];
+            //floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset
+            if ([self.delegate respondsToSelector:@selector(panToolbar:)]) {
+                [self.delegate panToolbar:recognizer];
             }
             
             [recognizer setTranslation:CGPointZero inView:self];
         }
     }
-    
-    - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset {
-        CGPoint startingPoint = toolbar.frame.origin;
-        CGPoint newPoint = CGPointMake(startingPoint.x + offset.x, startingPoint.y + offset.y);
-        
-        CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame), CGRectGetHeight(toolbar.frame));
-        
-        //if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
-          //  toolbar.frame = potentialNewFrame;
-        }
-    //}
+
+
+
 
 
 @end

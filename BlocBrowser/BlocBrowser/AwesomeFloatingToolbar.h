@@ -15,7 +15,12 @@
 @optional
 
 - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didSelectButtonWithTitle:(NSString *)title;
--(void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffSet:(CGPoint)offset;
+-(void) panToolbar:(UIPanGestureRecognizer *)recognizer;
+
+//defined pinch gesture here...
+
+-(void) pinchToolbar:(UIPinchGestureRecognizer *)pinch;
+
 
 @end
 
